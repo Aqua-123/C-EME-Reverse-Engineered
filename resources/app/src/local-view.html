@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local View - C:\EME</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="text-white overflow-hidden">
+    <div class="relative z-10 min-h-screen flex items-center">
+      <iframe
+        id="emeraldchat-iframe"
+        src="https://emeraldchat.com"
+        class="flex-1 h-screen w-full"
+      ></iframe>
+      <div class="glass-effect p-8 max-w-md w-full fixed top-0 left-0 m-4 z-20">
+        <h1 class="text-4xl font-bold mb-6 text-center text-glow">
+          Local View
+        </h1>
+        <div id="messages" class="mt-4">
+          <!-- Messages will appear here -->
+        </div>
+      </div>
+    </div>
+    <script>
+      const { ipcRenderer } = require("electron");
+      const messagesDiv = document.getElementById("messages");
+
+      ipcRenderer.on("message-from-main", (event, message) => {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        messagesDiv.appendChild(messageElement);
+        console.log("Received message from main:", message);
+      });
+
+      ipcRenderer.on("insert-html", (event, html) => {
+        const container = document.createElement("div");
+        container.innerHTML = html;
+        document.body.appendChild(container);
+        console.log("Inserted HTML:", html);
+      });
+
+      ipcRenderer.on("manipulate-dom", (event, script) => {
+        const scriptElement = document.createElement("script");
+        scriptElement.textContent = script;
+        document.body.appendChild(scriptElement);
+        console.log("Executed script:", script);
+      });
+
+      window.addEventListener("message", (event) => {
+        if (event.origin !== "https://emeraldchat.com") {
+          console.error("Origin not allowed:", event.origin);
+          return;
+        }
+        console.log("Message from iframe:", event.data);
+        handleIncomingMessage(event.data);
+      });
+
+      function handleIncomingMessage(message) {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        messagesDiv.appendChild(messageElement);
+        console.log("Handled incoming message:", message);
+      }
+    </script>
+  </body>
+</html>

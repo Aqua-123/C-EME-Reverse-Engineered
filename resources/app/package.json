@@ -1,0 +1,59 @@
+{
+  "name": "emeraldchat-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-css": "tailwindcss -i src/style.css -o src/output.css",
+    "watch-css": "tailwindcss -i src/style.css -o src/output.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "obfuscate": "javascript-obfuscator src --output src-obfuscated --config obfuscator-config.json",
+    "dist": "npm run obfuscate && electron-builder",
+    "package": "npm run obfuscate && electron-packager . emeraldchat-electron --platform=win32 --arch=x64 --out=dist --icon=assets/icons/win/icon.ico --overwrite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "electron": "^31.1.0",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2",
+    "javascript-obfuscator": "^4.1.1",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4"
+  },
+  "dependencies": {
+    "2captcha": "^3.0.5-2",
+    "axios": "^1.7.2",
+    "bytenode": "^1.5.6",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "http-proxy-middleware": "^3.0.0",
+    "macaddress": "^0.5.3",
+    "mongodb": "^6.8.0",
+    "node-macaddress": "^0.2.4",
+    "node-wifi": "^2.0.16",
+    "puppeteer": "^22.12.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "build": {
+    "appId": "com.emeraldchat.app",
+    "win": {
+      "icon": "assets/icons/win/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "files": [
+      "src-obfuscated/**",
+      "node_modules/**",
+      "package.json",
+      "main.js",
+      "assets/**"
+    ]
+  }
+}
