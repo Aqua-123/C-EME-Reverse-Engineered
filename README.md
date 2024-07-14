@@ -13,12 +13,10 @@ The contents of this repository are intended for educational and research purpos
 The files have been decompiled and deobfuscated in place. Below is the structure of the directories included in this repository:
 
 ```
-resources/
-├── app/
-├── src/
-├── src-obfuscated/
-├── main.js
-└── preload.js
+├── resources\app\src
+├── resources\app\src-obfuscated
+├── resources\app\main.js
+└── resources\app\preload.js
 ```
 
 ## Usage
